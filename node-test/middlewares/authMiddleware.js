@@ -1,0 +1,39 @@
+const jwt = require("jsonwebtoken");
+const User = require("../models/User");
+const TokenBlackList = require("../models/TokenBlackList");
+
+const protect = async (req, res, next) => {
+  let token;
+  if (req.headers.authorization && req.headers.authorization.split(" ")[1]) {
+    token = req.headers.authorization.split(" ")[1];
+  }
+
+  if (!token)
+    return res.status(401).json({
+      success: false,
+      message: "Unauthorized",
+      data: {},
+    });
+
+  const blacklisted = await TokenBlackList.findOne({ token });
+
+  if (blacklisted)
+    return res.status(401).json({
+      success: false,
+      message: "Token expired",
+      data: {},
+    });
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = await User.findById(decoded.id).select("-password");
+    next();
+  } catch (err) {
+    res.status(401).json({
+      success: false,
+      message: "Unauthorized",
+      data: {},
+    });
+  }
+};
+
+module.exports = { protect };

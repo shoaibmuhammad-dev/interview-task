@@ -1,0 +1,29 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+
+@import "tailwindcss";
+
+:root {
+  --background: #10221c;
+  --primary: #10b77f;
+  --gray: #94a3b8;
+  --border: #10b77f1a;
+  --foreground: #10b77f4d;
+  --light-gray: #f1f5f9;
+  --primary-text: #10b77fb2;
+}
+
+* {
+  font-family: "Inter", sans-serif;
+}
+
+body {
+  background-color: var(--background);
+}
+
+.secondary-text {
+  color: #94a3b8;
+}
+
+.form-container-shadow {
+  box-shadow: 0px 25px 50px -12px #00000040;
+}
